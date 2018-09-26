@@ -1,3 +1,11 @@
+-- Module      : Itea.Javascript.Timer
+-- Description :
+-- Copyright   : (c) Simon Nielsen Knights 2018
+-- License     : MIT
+-- Maintainer  : simonank@mail.ru
+-- Stability   : unstable
+-- Portability : portable
+
 module Itea.Javascript.Timer
 import Itea.Utils
 

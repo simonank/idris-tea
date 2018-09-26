@@ -1,6 +1,17 @@
+-- Module      : Itea.Program
+-- Description :
+-- Copyright   : (c) Simon Nielsen Knights 2018
+-- License     : MIT
+-- Maintainer  : simonank@mail.ru
+-- Stability   : unstable
+-- Portability : portable
+
 module Itea.Program
 import Itea.Html
 import Itea.Dom.Primitives
+
+%default total
+%access public export
 
 ||| Commands
 data Cmd : Type -> Type where

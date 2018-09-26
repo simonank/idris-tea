@@ -1,3 +1,11 @@
+-- Module      : Itea.Html.Events
+-- Description :
+-- Copyright   : (c) Simon Nielsen Knights 2018
+-- License     : MIT
+-- Maintainer  : simonank@mail.ru
+-- Stability   : unstable
+-- Portability : portable
+
 module Itea.Html.Events
 import Itea.Utils
 import Itea.Javascript.Types

@@ -1,3 +1,11 @@
+-- Module      : Itea.Dom.Primitives
+-- Description :
+-- Copyright   : (c) Simon Nielsen Knights 2018
+-- License     : MIT
+-- Maintainer  : simonank@mail.ru
+-- Stability   : unstable
+-- Portability : portable
+
 module Itea.Dom.Primitives
 import Itea.Html
 import Itea.Html.Events

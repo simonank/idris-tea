@@ -1,3 +1,11 @@
+-- Module      : Itea.Javascript.Types
+-- Description :
+-- Copyright   : (c) Simon Nielsen Knights 2018
+-- License     : MIT
+-- Maintainer  : simonank@mail.ru
+-- Stability   : unstable
+-- Portability : portable
+
 module Itea.Javascript.Types
 import Itea.Utils
 
