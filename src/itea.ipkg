@@ -1,0 +1,18 @@
+package itea
+
+opts = "--partial-eval"
+
+modules = Itea
+
+        , Itea.Html
+        , Itea.Html.Attributes
+        , Itea.Html.Events
+
+        , Itea.Dom.Primitives
+
+        , Itea.Javascript.Types
+        , Itea.Javascript.Objects
+        , Itea.Javascript.Timer
+
+        , Itea.Program
+        , Itea.Utils
