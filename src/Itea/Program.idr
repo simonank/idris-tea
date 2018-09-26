@@ -26,9 +26,13 @@ data Sub : Type -> Type where
 ||| @msg the message type representing user actions
 record Program model msg where
   constructor MkProgram
+  ||| Initial state
   init          : (model, Cmd msg)
+  ||| Update function used to advance state by one step
   update        : msg -> model -> (model, Cmd msg)
+  ||| Subscription to services which fire events upon completion
   subscriptions : model -> Sub msg
+  ||| View constructing the DOM tree
   view          : model -> Html msg
 
 

@@ -28,7 +28,15 @@ Handler a = JsFn (Ptr -> JS_IO ())
 
 ||| Event type
 data Event : Type -> Type where
-  MkEvent : String -> Handler a -> JSRef 'EventOptions -> Event a
+  ||| Event constructor
+  |||
+  ||| @name name of event to fire on
+  ||| @handler event hanlder
+  ||| @options event options given a raw Javascript pointer with an opaque type
+  MkEvent : (name    : String)
+         -> (handler : Handler a)
+         -> (options : JSRef 'EventOptions)
+         -> Event a
 
 HtmlEvent : Type -> Type -> Type
 HtmlEvent a b = ReaderT (EventQueue a, Ptr) JS_IO b
@@ -46,15 +54,22 @@ getEvent (MkEVQ queue) =
 
 namespace HtmlEvent
 
+  ||| Place a new event on the queue within the context of a reader monad
   putEvent : a -> HtmlEvent a ()
   putEvent value = asks Prelude.Basics.fst
                >>= lift . flip putEvent value
 
+  ||| Pop the latest event from the queue within the context of a reader monad
   getEvent : HtmlEvent a (Maybe a)
   getEvent = asks Prelude.Basics.fst
          >>= lift . getEvent
 
-event : String -> JSRef 'EventOptions -> HtmlEvent a () -> EventQueue a -> Event a
+||| Construct a new event with the given name, options, handler, and queue
+event : (name    : String)
+     -> (options : JSRef 'EventOptions)
+     -> (handler : HtmlEvent a ())
+     -> (queue   : EventQueue a)
+     -> Event a
 event name options handler e =
   MkEvent name
           (MkJsFn $ \p => runReaderT handler (e,p))
@@ -90,9 +105,11 @@ namespace Default
 
 namespace Simple
 
+  ||| Simplified interface for `onchange`
   onchange : a -> EventQueue a -> Event a
   onchange = onchange . putEvent
 
+  ||| Simplified interface for `onclick`
   onclick : a -> EventQueue a -> Event a
   onclick = onclick . putEvent
 

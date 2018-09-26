@@ -6,6 +6,8 @@
 -- Stability   : unstable
 -- Portability : portable
 
+||| Itea top-level module exporting the most commonly used modules
+module Itea
 import public Itea.Javascript.Types
 import public Itea.Html
 import public Itea.Html.Attributes

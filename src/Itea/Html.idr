@@ -49,6 +49,7 @@ interactiveElement : String
 interactiveElement name events attr =
   pure $ HtmlElem name (map (flip apply !ask) events) attr []
 
+||| Construct a text element
 text : String -> Html a
 text = pure . HtmlText
 
@@ -114,9 +115,9 @@ record Image where
   constructor MkImage
   ||| Relative link
   rel    : String
-  ||| Width
+  ||| Width of image
   width  : Dimension
-  ||| Height
+  ||| Height of image
   height : Dimension
 
 img : List Attribute -> Html a
@@ -124,6 +125,7 @@ img = flip (staticElement "img") []
 
 namespace Simple
 
+  ||| Simple interface working with images directly
   img : List Attribute -> Image -> Html a
   img attr (MkImage rel' width' height') =
     img $ [ width width'
@@ -204,16 +206,24 @@ menuitem
 menu
 -}
 
-button : (xs : List (EventQueue a -> Event a))
-      -> List Attribute
+||| Interactive button
+|||
+||| @xs list of listeners along with their return messages
+||| @attr button attributes
+||| @ok proof of the input list having at least one element
+button : (xs   : List (EventQueue a -> Event a))
+      -> (attr : List Attribute)
       -> { auto ok : NonEmpty xs }
       -> Html a
 button = interactiveElement "button"
 
-input : (xs : List (EventQueue a -> Event a))
-     -> List Attribute
+||| Interactive input
+|||
+||| @xs list of listeners along with their return messages
+||| @attr input attributes
+||| @ok proof of the input list having at least one element
+input : (xs   : List (EventQueue a -> Event a))
+     -> (attr : List Attribute)
      -> { auto ok : NonEmpty xs }
      -> Html a
 input = interactiveElement "input"
-
-
