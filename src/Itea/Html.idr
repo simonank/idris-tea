@@ -16,6 +16,8 @@ import Control.Monad.Identity
 %default total
 %access public export
 
+-- Types -----------------------------------------------------------------------
+
 ||| HTML element type representing the structure of the DOM tree
 data HTML : Type -> Type where
   ||| Tag element
@@ -36,18 +38,29 @@ data HTML : Type -> Type where
 Html : Type -> Type
 Html a = Reader (EventQueue a) (HTML a)
 
+-- Element ---------------------------------------------------------------------
+
+||| Create a static element with given attributes
 staticElement : String -> List Attribute -> List (Html a) -> Html a
 staticElement name attr html =
   let html = map (runIdentity . flip runReaderT !ask) html in
   pure $ HtmlElem name [] attr html
 
-interactiveElement : String
-                  -> (xs : List (EventQueue a -> Event a))
-                  -> List Attribute
-                  -> { auto ok : NonEmpty xs }
+||| Create an interactive element with given listeners
+|||
+||| @name name of element
+||| @handlers list of handlers taking the event queue as input
+||| @attr element attributes
+||| @ok implicit proos ensuring given handler list is non empty
+interactiveElement : (name     : String)
+                  -> (handlers : List (EventQueue a -> Event a))
+                  -> (attr     : List Attribute)
+                  -> { auto ok : NonEmpty handlers }
                   -> Html a
 interactiveElement name events attr =
   pure $ HtmlElem name (map (flip apply !ask) events) attr []
+
+-- Tags ------------------------------------------------------------------------
 
 ||| Construct a text element
 text : String -> Html a
@@ -133,12 +146,20 @@ namespace Simple
           , rel rel'
           ] ++ attr
 
+p : List Attribute -> List (Html a) -> Html a
+p = staticElement "p"
+
+code : List Attribute -> List (Html a) -> Html a
+code = staticElement "code"
+
+strong : List Attribute -> List (Html a) -> Html a
+strong = staticElement "strong"
+
 {-
 header
 footer
 address
 main
-p
 hr
 pre
 blockquote
@@ -151,14 +172,12 @@ figure
 figcaption
 a
 em
-strong
 small
 s
 cite
 q
 abbr
 time
-code
 var
 samp
 kbd
